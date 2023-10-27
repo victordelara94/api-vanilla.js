@@ -1,3 +1,5 @@
-import { Component } from "./components/component.js";
+import { Header } from "./components/header.js";
 
-const components = [new Component(".root")];
+const components = [new Header(".root")];
+console.log(components);
+components[0].render;
