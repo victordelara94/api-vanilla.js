@@ -15,20 +15,20 @@ export class Footer extends Component {
             <span>By Marta</span>
             <a href="https://github.com/martiap" target="_blank">
               <img
-                src="../assets/github-logo.svg"
+                src="../assets/github-logo.png"
                 size="50"
                 alt="Logo gitHub"
-              ></img>
+              />
             </a>
           </div>
           <div>
             <span>By Victor</span>
             <a href="https://github.com/victordelara94" target="_blank">
               <img
-                src="../assets/github-logo.svg"
+                src="../assets/github-logo.png"
                 size="50"
                 alt="Logo gitHub"
-              ></img>
+              />
             </a>
           </div>
         </adress>
