@@ -1,4 +1,4 @@
-import { Component } from "./component.js";
+import { Component } from "../component.js";
 
 export class Footer extends Component {
   constructor(selector) {

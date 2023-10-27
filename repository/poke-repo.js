@@ -4,7 +4,7 @@ export class ApiPokeRepository {
     this.urlBase = urlBase;
   }
   async getAll() {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon");
+    const response = await fetch(this.urlBase);
     const data = await response.json();
     return data;
   }
