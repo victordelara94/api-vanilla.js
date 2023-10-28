@@ -7,5 +7,6 @@ const components = [
   new List(".root"),
   new Footer(".root"),
 ];
+
 console.log(components);
 components[0].render;
