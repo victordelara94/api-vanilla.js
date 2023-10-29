@@ -16,7 +16,7 @@ export class Footer extends Component {
             <a href="https://github.com/martiap" target="_blank">
               <img
                 src="../assets/github-logo.png"
-                size="50"
+                height="50"
                 alt="Logo gitHub"
               />
             </a>
@@ -26,7 +26,8 @@ export class Footer extends Component {
             <a href="https://github.com/victordelara94" target="_blank">
               <img
                 src="../assets/github-logo.png"
-                size="50"
+                height="50"
+             
                 alt="Logo gitHub"
               />
             </a>
