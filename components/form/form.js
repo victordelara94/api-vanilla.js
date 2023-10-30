@@ -9,16 +9,14 @@ export class Form extends Component {
   }
   createTemplate() {
     return `<form>
-    <input type="text" placeholder="Inser name or ID"></input>
+    <input type="text" placeholder="Insert name or ID"></input>
     <button type="submit">Search</button>
       </form>`;
   }
   async handleForm(event) {
     event.preventDefault();
     const input = document.querySelector("input");
-
-    const url = `https://pokeapi.co/api/v2/pokemon/${input.value}`;
-
-    list.createCards(0, url);
+    console.log(input.value);
+    list.createCards(input.value);
   }
 }

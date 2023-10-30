@@ -1,16 +1,13 @@
-import { pagingService } from "../../main.js";
-import { ApiPokeRepository } from "../../repository/poke-repo.js";
+import { repo } from "../../main.js";
 import { Card } from "../card/card.js";
 import { Component } from "../component.js";
 
 export class List extends Component {
   pokemons;
-  repo;
   url;
   offSet = 0;
   constructor(selector) {
     super(selector);
-    this.url = `https://pokeapi.co/api/v2/pokemon?offset=${this.offSet}&limit=20`;
     this.template = this.createTemplate();
     this.render();
     this.pokemons = [];
@@ -20,49 +17,57 @@ export class List extends Component {
   createTemplate() {
     return `<ul class="list"></ul>`;
   }
-  async createCards(offSet, url) {
-    if (offSet < 0) return;
+  async createCards(identity) {
     this.pokemons = [];
-    if (offSet === undefined) {
-      this.offSet = 0;
-      this.repo = new ApiPokeRepository(this.url);
-    }
-    if (typeof offSet === "number") {
-      if (!url) {
-        this.url = `https://pokeapi.co/api/v2/pokemon?offset=${offSet}&limit=20`;
-        this.repo = new ApiPokeRepository(this.url);
-      }
-      const ulElement = document.querySelector(".list");
-      const listElements = document.querySelectorAll(".pokemon");
+    const ulElement = document.querySelector(".list");
+    const listElements = document.querySelectorAll(".pokemon");
+    if (listElements) {
       listElements.forEach((element) => ulElement.removeChild(element));
     }
-    if (url) {
-      this.repo = new ApiPokeRepository(url);
-      const pokemon = await this.repo.getAll();
-      pokemon.image = pokemon.sprites.other.dream_world.front_default;
-      this.pokemons.push(pokemon);
-      this.pokemons.sort((a, b) => a.id - b.id);
-      this.pokemons.forEach((pokemon) => {
-        new Card(".list", pokemon);
-      });
+
+    if (identity) {
+      this.pokemons = await repo.getOne(identity);
+      this.pokemons.image =
+        this.pokemons.sprites.other.dream_world.front_default;
+      if (this.pokemons.id > 649) {
+        this.pokemons.image = this.pokemons.sprites.front_default;
+      }
+      new Card(".list", this.pokemons);
       return;
     }
-    const firstResponse = await this.repo.getAll();
-    const pokemons = firstResponse.results;
+
+    // if (this.offSet < 0) return;
+    // // if (this.offSet >= 0) {
+    // //   const ulElement = document.querySelector(".list");
+    // //   const listElements = document.querySelectorAll(".pokemon");
+    // // }
+
+    // // listElements.forEach((element) => ulElement.removeChild(element));
+
+    // if (offSet && limit) {
+    // const pokemon = (pokemon.image =
+    //   pokemon.sprites.other.dream_world.front_default);
+    // this.pokemons.push(pokemon);
+    // this.pokemons.sort((a, b) => a.id - b.id);
+    // this.pokemons.forEach((pokemon) => {
+    //   new Card(".list", pokemon);
+    // });
+    // return;
+    // }
+    const firstResponse = await repo.getAll();
+    this.pokemons = firstResponse.results;
 
     await Promise.all(
-      pokemons.map(async (pokemon) => {
-        const secondRepo = new ApiPokeRepository(pokemon.url);
-        const secondResponse = await secondRepo.getAll();
+      this.pokemons.map(async (pokemon) => {
+        const secondResponse = await repo.getOne(pokemon.name);
         pokemon.image = secondResponse.sprites.other.dream_world.front_default;
         pokemon.id = secondResponse.id;
-        this.pokemons.push(pokemon);
+        // this.pokemons.push(pokemon);
       })
     );
     this.pokemons.sort((a, b) => a.id - b.id);
     this.pokemons.forEach((pokemon) => {
       new Card(".list", pokemon);
     });
-    pagingService.setOffSetAndLimit(firstResponse);
   }
 }
