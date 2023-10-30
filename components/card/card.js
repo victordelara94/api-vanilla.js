@@ -9,9 +9,9 @@ export class Card extends Component {
     this.render();
   }
   createTemplate() {
-    return `<li>
+    return `<li class="pokemon">
     <span>${this.pokemon.name}</span>
-      <img src=${this.pokemon.image} alt=${this.pokemon.image} width=200 height=200/>
+      <a href="https://www.pokemon.com/es/pokedex/${this.pokemon.name}" target="_blank"><img src=${this.pokemon.image} alt=${this.pokemon.image} width=200 height=200/></a>
     </li>`;
   }
 }
