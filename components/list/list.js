@@ -11,7 +11,6 @@ export class List extends Component {
   constructor(selector) {
     super(selector);
     this.url = `https://pokeapi.co/api/v2/pokemon?offset=${this.offSet}&limit=20`;
-
     this.template = this.createTemplate();
     this.render();
     this.pokemons = [];
@@ -21,20 +20,32 @@ export class List extends Component {
   createTemplate() {
     return `<ul class="list"></ul>`;
   }
-  async createCards(offSet) {
+  async createCards(offSet, url) {
     if (offSet < 0) return;
-
     this.pokemons = [];
     if (offSet === undefined) {
-      this.offSet = offSet;
+      this.offSet = 0;
       this.repo = new ApiPokeRepository(this.url);
     }
     if (typeof offSet === "number") {
-      this.url = `https://pokeapi.co/api/v2/pokemon?offset=${offSet}&limit=20`;
-      this.repo = new ApiPokeRepository(this.url);
+      if (!url) {
+        this.url = `https://pokeapi.co/api/v2/pokemon?offset=${offSet}&limit=20`;
+        this.repo = new ApiPokeRepository(this.url);
+      }
       const ulElement = document.querySelector(".list");
       const listElements = document.querySelectorAll(".pokemon");
       listElements.forEach((element) => ulElement.removeChild(element));
+    }
+    if (url) {
+      this.repo = new ApiPokeRepository(url);
+      const pokemon = await this.repo.getAll();
+      pokemon.image = pokemon.sprites.other.dream_world.front_default;
+      this.pokemons.push(pokemon);
+      this.pokemons.sort((a, b) => a.id - b.id);
+      this.pokemons.forEach((pokemon) => {
+        new Card(".list", pokemon);
+      });
+      return;
     }
     const firstResponse = await this.repo.getAll();
     const pokemons = firstResponse.results;
