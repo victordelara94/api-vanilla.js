@@ -15,12 +15,15 @@ export class Buttons extends Component {
   }
   changePage(event) {
     if (event.target.className === "nextButton") {
-      this.offSet = pagingService.nextPage();
+      pagingService.nextPage();
+      this.offSet = pagingService.getOffSet();
       previousPageElement.classList.remove("hidden");
     }
 
-    if (event.target.className === "previousButton")
-      this.offSet = pagingService.previousPage();
+    if (event.target.className === "previousButton") {
+      pagingService.previousPage();
+      this.offSet = pagingService.getOffSet();
+    }
     if (this.offSet === 0) {
       previousPageElement.classList.add("hidden");
     }

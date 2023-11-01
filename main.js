@@ -3,16 +3,18 @@ import { Footer } from "./components/footer/footer.js";
 import { Form } from "./components/form/form.js";
 import { Header } from "./components/header/header.js";
 import { List } from "./components/list/list.js";
+import { ApiPokeRepository } from "./repository/poke-repo.js";
 import { PagingService } from "./services/paging.service.js";
 
-export const pagingService = new PagingService();
+export const repo = new ApiPokeRepository();
+export const pagingService = new PagingService(20);
 new Header(".root");
 export const form = new Form(".root");
 export const list = new List(".root");
 export const buttons = new Buttons(".root");
 new Footer(".root");
 export const previousPageElement = document.querySelector(".previousButton");
-const nextPageElement = document.querySelector(".nextButton");
+export const nextPageElement = document.querySelector(".nextButton");
 const formElement = document.querySelector("form");
 nextPageElement.addEventListener("click", (event) => {
   buttons.changePage(event);
