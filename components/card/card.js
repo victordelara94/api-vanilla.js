@@ -10,8 +10,8 @@ export class Card extends Component {
   }
   createTemplate() {
     return `<li class="pokemon">
-    <span>${this.pokemon.name}</span>
-      <a href="https://www.pokemon.com/es/pokedex/${this.pokemon.name}" target="_blank"><img src=${this.pokemon.image} alt=${this.pokemon.image} width=200 height=200/></a>
+    <span class="pokemon-name">${this.pokemon.name}</span>
+      <a class="pokemon-link" href="https://www.pokemon.com/es/pokedex/${this.pokemon.name}" target="_blank"><img class="pokemon-image" src=${this.pokemon.image} alt=${this.pokemon.image} width=200 height=200/></a>
     </li>`;
   }
 }

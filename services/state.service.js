@@ -1,18 +1,19 @@
-import { list, repo } from "../main.js";
+import { list, pagingService, repo } from "../main.js";
 export class StateService {
   pagePokemons = [];
   actualPokemon;
   types = [];
-  oneTypePokemons = [];
+  allOneTypePokemons = [];
+  pageOneTypePokemons = [];
   constructor() {}
 
   async setPagePokemons() {
     this.pagePokemons = [];
     const firstResponse = await repo.getAll();
-    this.pokemons = firstResponse.results;
+    const pokemons = firstResponse.results;
 
     await Promise.all(
-      this.pokemons.map(async (pokemon) => {
+      pokemons.map(async (pokemon) => {
         const secondResponse = await repo.getOne(pokemon.name);
         pokemon.image = secondResponse.sprites.other.dream_world.front_default;
         if (pokemon.id > 649) {
@@ -26,24 +27,33 @@ export class StateService {
     list.createCards();
   }
   async setOneTypePokemons(type) {
-    this.oneTypePokemons = [];
+    this.allOneTypePokemons = [];
     const firstResponse = await repo.getByType(type);
     firstResponse.pokemon.forEach((pokemon) =>
-      this.oneTypePokemons.push(pokemon.pokemon)
+      this.allOneTypePokemons.push(pokemon.pokemon)
     );
 
     await Promise.all(
-      this.oneTypePokemons.map(async (pokemon) => {
+      this.allOneTypePokemons.map(async (pokemon) => {
         const secondResponse = await repo.getOne(pokemon.name);
+        pokemon.id = secondResponse.id;
         pokemon.image = secondResponse.sprites.other.dream_world.front_default;
         if (pokemon.id > 649) {
           pokemon.image = secondResponse.sprites.front_default;
         }
-        pokemon.id = secondResponse.id;
+        if (!pokemon.image) {
+          pokemon.image =
+            secondResponse.sprites.other["official-artwork"].front_default;
+        }
+        if (!pokemon.image) {
+          this.allOneTypePokemons = this.allOneTypePokemons.filter(
+            (item) => item !== pokemon
+          );
+        }
       })
     );
-    this.oneTypePokemons.sort((a, b) => a.id - b.id);
-    list.createCards(this.oneTypePokemons);
+    this.allOneTypePokemons.sort((a, b) => a.id - b.id);
+    pagingService.setPaggingForTypes(1);
   }
 
   async setActualPokemon(identity) {

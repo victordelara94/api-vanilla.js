@@ -17,8 +17,8 @@ export const list = new List(".root");
 export const buttons = new Buttons(".root");
 new Footer(".root");
 stateService.setPagePokemons();
-export const previousPageElement = document.querySelector(".previousButton");
-export const nextPageElement = document.querySelector(".nextButton");
+export const previousPageElement = document.querySelector(".previous-button");
+export const nextPageElement = document.querySelector(".next-button");
 const formElement = document.querySelector("form");
 nextPageElement.addEventListener("click", (event) => {
   buttons.changePage(event);

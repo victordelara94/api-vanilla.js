@@ -1,4 +1,4 @@
-import { list } from "../main.js";
+import { list, stateService } from "../main.js";
 
 export class PagingService {
   offSet = 0;
@@ -9,14 +9,29 @@ export class PagingService {
 
   nextPage() {
     this.offSet += this.limit;
-    list.createCards();
+    if (stateService.pageOneTypePokemons.length > 0) {
+      this.setPaggingForTypes();
+      return;
+    }
+    stateService.setPagePokemons();
   }
 
   previousPage() {
     this.offSet -= this.limit;
-    list.createCards();
+    if (stateService.pageOneTypePokemons.length > 0) {
+      this.setPaggingForTypes();
+      return;
+    }
+    stateService.setPagePokemons();
   }
   getOffSet() {
     return this.offSet;
+  }
+  setPaggingForTypes() {
+    stateService.pageOneTypePokemons = stateService.allOneTypePokemons.slice(
+      this.offSet,
+      this.offSet + 1 * this.limit
+    );
+    list.createCards(stateService.pageOneTypePokemons);
   }
 }

@@ -10,7 +10,6 @@ export class List extends Component {
     this.template = this.createTemplate();
     this.render();
     this.pokemons = [];
-    // this.createCards();
   }
 
   createTemplate() {
@@ -18,7 +17,6 @@ export class List extends Component {
   }
 
   async createCards(identity) {
-    debugger;
     const ulElement = document.querySelector(".list");
     const listElements = document.querySelectorAll(".pokemon");
     if (listElements) {
@@ -31,7 +29,6 @@ export class List extends Component {
         });
         return;
       }
-      // await stateService.setActualPokemon(identity);
       new Card(".list", stateService.actualPokemon);
       return;
     }

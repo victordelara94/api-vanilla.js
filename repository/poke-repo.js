@@ -1,4 +1,4 @@
-import { pagingService } from "../main.js";
+import { form, pagingService } from "../main.js";
 
 export class ApiPokeRepository {
   urlBase;
@@ -16,10 +16,16 @@ export class ApiPokeRepository {
     return data;
   }
   async getOne(identity) {
-    const url = this.urlBase + `/pokemon/${identity}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+    try {
+      const url = this.urlBase + `/pokemon/${identity}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      form.errorMessage.classList.remove("hidden");
+      setTimeout(() => form.errorMessage.classList.add("hidden"), 3000);
+      form.errorMessage.textContent = "Cant find this pokemon";
+    }
   }
   async getTypes() {
     const url = this.urlBase + `/type`;
