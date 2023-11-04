@@ -1,4 +1,5 @@
-import { list } from "../../main.js";
+// import { list } from "../../main.js";
+import { stateService } from "../../main.js";
 import { Component } from "../component.js";
 export class Form extends Component {
   repo;
@@ -16,7 +17,18 @@ export class Form extends Component {
   async handleForm(event) {
     event.preventDefault();
     const input = document.querySelector("input");
-    console.log(input.value);
-    list.createCards(input.value);
+
+    const type = stateService.types.find((type) => type.name === input.value);
+
+    if (type) {
+      await stateService.setOneTypePokemons(type.name);
+      return;
+    }
+    if (input.value) {
+      await stateService.setActualPokemon(input.value);
+      return;
+    }
+    await stateService.setPagePokemons();
   }
 }
+// list.createCards(input.value);
