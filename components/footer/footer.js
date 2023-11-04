@@ -9,30 +9,24 @@ export class Footer extends Component {
 
   createTemplate() {
     return `
-      <footer>
-        <adress>
-          <div>
-            <span>By Marta</span>
-            <a href="https://github.com/martiap" target="_blank">
+      <footer class="footer">
+            
+            <a class="footer-github" href="https://github.com/victordelara94" target="_blank">
               <img
                 src="../assets/github-logo.png"
-                height="50"
-                alt="Logo gitHub"
+                height="50"    
+                alt="GitHub logo "
+              />
+            </a>
+             <a class="footer-linkedin" href="https://www.linkedin.com/in/victordelaramartinez/" target="_blank">
+              <img
+                src="../assets/linkedin.svg"
+                height="50"    
+                alt="Linkedin logo"
               />
             </a>
           </div>
-          <div>
-            <span>By Victor</span>
-            <a href="https://github.com/victordelara94" target="_blank">
-              <img
-                src="../assets/github-logo.png"
-                height="50"
-             
-                alt="Logo gitHub"
-              />
-            </a>
-          </div>
-        </adress>
+        
       </footer>
     `;
   }

@@ -10,17 +10,17 @@ export class Buttons extends Component {
     this.render();
   }
   createTemplate() {
-    return `<button class="previousButton hidden" >Previous</button>
-    <button class="nextButton">Next</button>`;
+    return `<div class="buttons-container"><button class="previous-button hidden" >Previous</button>
+    <button class="next-button">Next</button></div>`;
   }
   changePage(event) {
-    if (event.target.className === "nextButton") {
+    if (event.target.className === "next-button") {
       pagingService.nextPage();
       this.offSet = pagingService.getOffSet();
       previousPageElement.classList.remove("hidden");
     }
 
-    if (event.target.className === "previousButton") {
+    if (event.target.className === "previous-button") {
       pagingService.previousPage();
       this.offSet = pagingService.getOffSet();
     }
