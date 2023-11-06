@@ -4,7 +4,7 @@ export class Footer extends Component {
   constructor(selector) {
     super(selector);
     this.template = this.createTemplate();
-    this.render();
+    this.render("afterend");
   }
 
   createTemplate() {
@@ -17,7 +17,9 @@ export class Footer extends Component {
                 height="50"    
                 alt="GitHub logo "
               />
+              
             </a>
+            <span class="footer-presentation">By Víctor</span>
              <a class="footer-linkedin" href="https://www.linkedin.com/in/victordelaramartinez/" target="_blank">
               <img
                 src="../assets/linkedin.svg"
