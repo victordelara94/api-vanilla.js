@@ -1,5 +1,6 @@
 import { list, pagingService, repo } from "../main.js";
 export class StateService {
+  isLoaded;
   pagePokemons = [];
   actualPokemon;
   types = [];
@@ -27,6 +28,8 @@ export class StateService {
     list.createCards();
   }
   async setOneTypePokemons(type) {
+    const listElement = document.querySelector(".list");
+    listElement.classList.add("none");
     this.allOneTypePokemons = [];
     const firstResponse = await repo.getByType(type);
     firstResponse.pokemon.forEach((pokemon) =>
@@ -52,18 +55,32 @@ export class StateService {
         }
       })
     );
+    listElement.classList.remove("none");
     this.allOneTypePokemons.sort((a, b) => a.id - b.id);
     pagingService.setPaggingForTypes(1);
   }
 
   async setActualPokemon(identity) {
+    const listElement = document.querySelector(".list");
+    listElement.classList.add("none");
     this.actualPokemon = undefined;
     this.actualPokemon = await repo.getOne(identity);
+    if (this.actualPokemon === undefined) return;
     this.actualPokemon.image =
       this.actualPokemon.sprites.other.dream_world.front_default;
     if (this.actualPokemon.id > 649) {
-      this.actualPokemon.image = this.pokemons.sprites.front_default;
+      this.actualPokemon.image = this.actualPokemon.sprites.front_default;
     }
+    if (!this.actualPokemon.image) {
+      pokemon.image =
+        secondResponse.sprites.other["official-artwork"].front_default;
+    }
+    if (!this.actualPokemon.image) {
+      this.allOneTypePokemons = this.allOneTypePokemons.filter(
+        (item) => item !== pokemon
+      );
+    }
+    listElement.classList.remove("none");
     list.createCards(this.actualPokemon);
   }
   async setTypes() {

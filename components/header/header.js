@@ -4,7 +4,7 @@ export class Header extends Component {
   constructor(selector) {
     super(selector);
     this.template = this.createTemplate();
-    this.render();
+    this.render("beforebegin");
   }
 
   createTemplate() {

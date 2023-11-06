@@ -1,5 +1,10 @@
 // import { list } from "../../main.js";
-import { pagingService, stateService } from "../../main.js";
+import {
+  nextPageElement,
+  pagingService,
+  previousPageElement,
+  stateService,
+} from "../../main.js";
 import { Component } from "../component.js";
 export class Form extends Component {
   repo;
@@ -12,9 +17,9 @@ export class Form extends Component {
   }
   createTemplate() {
     return `<form class="form">
-    <input class="form-input" type="text" placeholder="Insert name or ID"></input>
+    <input class="form-input" type="text" placeholder="Insert name, ID or type"></input>
     <button class="form-button" type="submit">Search</button>
-    <p class="error hidden">.</p>
+    <p class="error hidden"></p>
       </form>`;
   }
   async handleForm(event) {
@@ -25,21 +30,27 @@ export class Form extends Component {
     const type = stateService.types.find((type) => type.name === input.value);
 
     if (type) {
+      nextPageElement.classList.remove("hidden");
+      previousPageElement.classList.add("hidden");
       await stateService.setOneTypePokemons(type.name);
       return;
     }
     if (input.value === "all") {
+      nextPageElement.classList.remove("hidden");
+      previousPageElement.classList.add("hidden");
       await stateService.setPagePokemons();
       return;
     }
     if (input.value) {
+      previousPageElement.classList.add("hidden");
+      const nextPageElement = document.querySelector(".next-button");
+      nextPageElement.classList.add("hidden");
       await stateService.setActualPokemon(input.value);
       return;
     }
     if (!input.value) {
       this.errorMessage.textContent = `Submit empty, if want to see all insert "all"`;
-      this.errorMessage.classList.remove("hidden");
-      setTimeout(() => this.errorMessage.classList.add("hidden"), 3000);
+      setTimeout(() => (this.errorMessage.textContent = ""), 3000);
       return;
     }
   }

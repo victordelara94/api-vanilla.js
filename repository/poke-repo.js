@@ -22,9 +22,8 @@ export class ApiPokeRepository {
       const data = await response.json();
       return data;
     } catch (error) {
-      form.errorMessage.classList.remove("hidden");
-      setTimeout(() => form.errorMessage.classList.add("hidden"), 3000);
-      form.errorMessage.textContent = "Cant find this pokemon";
+      form.errorMessage.textContent = `Cant find this pokemon, if want to see all insert "all"`;
+      setTimeout(() => (form.errorMessage.textContent = ""), 3000);
     }
   }
   async getTypes() {

@@ -17,6 +17,7 @@ export class List extends Component {
   }
 
   async createCards(identity) {
+    window.scrollTo(0, 0);
     const ulElement = document.querySelector(".list");
     const listElements = document.querySelectorAll(".pokemon");
     if (listElements) {
